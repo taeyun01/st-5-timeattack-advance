@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { useGetTodos } from "../querys/useTodosQureys";
 
-export default function TodoList({ todos }) {
+export default function TodoList() {
   const navigate = useNavigate();
+
+  const { data: todos, isPending, error } = useGetTodos();
+
+  if (isPending) return <div>로딩중...</div>;
+  if (error) return <div>에러가 발생했습니다: {error.message}</div>;
+
   return (
     <ul style={{ listStyle: "none", width: 250 }}>
       {todos.map((todo) => (
